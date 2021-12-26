@@ -94,7 +94,7 @@ export class FeedComponent implements OnInit, OnDestroy {
   changeArticle() {
     let title = this.rssItems[this.currentArticle].title[0];
     title += this.rssItems[this.currentArticle].description;
-    this.ttsService.sendText(text);
+    this.ttsService.sendText(title);
   }
 
   toggle() {
