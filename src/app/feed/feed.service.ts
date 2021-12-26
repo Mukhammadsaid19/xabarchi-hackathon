@@ -5,6 +5,10 @@ import { parseString } from 'xml2js';
 import { IRssItem, NewsRss } from './types/INews';
 import { RSS } from './types/IOptions';
 
+interface IRSSDescription {
+  description: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -13,7 +17,7 @@ export class FeedService {
   tempArray: IRssItem[];
   rssUrls = {
     DARYO: 'https://daryo.uz/uz/feed/',
-    KUN: 'https://kun.uz/en/news/rss',
+    KUN: 'https://kun.uz/uz/news/rss',
     GAZETA: 'https://www.gazeta.uz/uz/rss/',
   };
   isLoaded$: BehaviorSubject<boolean>;
@@ -28,6 +32,15 @@ export class FeedService {
       let end = i === rssOptions.length - 1;
       this.getRss(this.rssUrls[rssOptions[i]], end);
     }
+  }
+
+  getRssText(url: string, source: string) {
+    return this.http
+      .post<IRSSDescription>('http://127.0.0.1:8000/parse', {
+        source,
+        url,
+      })
+      .toPromise();
   }
 
   getRss(rssUrl, end: boolean) {

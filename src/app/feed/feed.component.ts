@@ -27,6 +27,9 @@ export class FeedComponent implements OnInit, OnDestroy {
 
   constructor(public feedService: FeedService, private ttsService: TtsService) {
     this.websites = ['DARYO', 'GAZETA', 'KUN'];
+    this.selectedWebsites = [];
+
+    this.getRss();
   }
 
   loadData(event) {
@@ -36,11 +39,25 @@ export class FeedComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.rssItemsSubscription = this.feedService.streamRss$.subscribe(
-      (data) => {
+      async (data) => {
         if (data) {
           this.rssItems = data;
-          let text = this.rssItems[this.currentArticle].title[0];
-          this.ttsService.sendText(text);
+          let title = this.rssItems[this.currentArticle].title[0];
+          title += this.rssItems[this.currentArticle].description;
+
+          // let moreText = await this.feedService.getRssText(
+          //   this.rssItems[this.currentArticle].link[0],
+          //   this.parseSource(this.rssItems[this.currentArticle].source)
+          // );
+
+          // if (moreText.description !== 'hehe') {
+          //   this.rssItems[this.currentArticle].description = [
+          //     moreText.description,
+          //   ];
+          //   title += moreText;
+          // }
+
+          this.ttsService.sendText(title);
           this.ttsService.isPlaying$.next('RESUME');
           this.toggleImageUrl = "url('assets/img/pause.svg') no-repeat center";
         }
@@ -50,6 +67,18 @@ export class FeedComponent implements OnInit, OnDestroy {
     this.ttsService.isPlaying$.subscribe((val) => (this.isPlaying = val));
 
     this.currentArticle = 0;
+  }
+
+  parseSource(source): string {
+    switch (source) {
+      case 'Daryo':
+        return 'daryo';
+      case 'Газета.uz':
+        return 'gazeta';
+      case 'Kun.uz':
+        return 'kun';
+    }
+    return 'daryo';
   }
 
   ngOnDestroy(): void {
