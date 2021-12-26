@@ -1,0 +1,195 @@
+<div class="container">
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <img src="assets/img/Frame 45.svg" alt="" />
+    <a href="#" class="navbar-brand h1">Xabarchi</a>
+    <div class="collapse navbar-collapse" id="navbar">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="#">Reklama</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Loyiha Haqida</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</div>
+<hr />
+
+<div class="container">
+  <div class="d-flex">
+    <div class="col-6 mr-2">
+      <p-multiSelect
+        [options]="websites"
+        [(ngModel)]="selectedWebsites"
+        defaultLabel="Select News Agency"
+        display="chip"
+      ></p-multiSelect>
+    </div>
+    <div class="col-6">
+      <p-button
+        label="Filter"
+        (onClick)="getRss()"
+        [style]="{ 'margin-left': '1em' }"
+      ></p-button>
+    </div>
+  </div>
+
+  <section class="news" style="margin-top: 2em">
+    <div *ngIf="this.feedService.isLoaded$ | async; else loading">
+      <p-dataView
+        [value]="rssItems.slice(this.currentArticle)"
+        [paginator]="true"
+        [rows]="20"
+        [lazy]="true"
+        selectionMode="single"
+        (onLazyLoad)="loadData($event)"
+        [totalRecords]="rssItems.length"
+      >
+        <ng-template let-item let-i="index" pTemplate="listItem">
+          <div
+            class="card mb-2"
+            [ngStyle]="{
+              border:
+                this.rssItems.indexOf(item) === this.currentArticle
+                  ? '3px solid #6571dd'
+                  : 'inherit'
+            }"
+          >
+            <div class="card-body">
+              <h5 class="card-title">
+                <a
+                  href="{{ item.link[0] }}"
+                  style="text-decoration: none; color: black"
+                  >{{ item.title[0] }}</a
+                >
+              </h5>
+              <h6 class="card-subtitle mb-2 text-muted mt-2">
+                {{ item.pubDate | date: "mediumDate" }}
+
+                <span>
+                  | <img src="assets/img/source_icon.svg" alt="" />
+                  {{ item.source }}</span
+                >
+              </h6>
+              <p class="card-text">
+                {{ item.description }}
+              </p>
+            </div>
+          </div></ng-template
+        >
+      </p-dataView>
+    </div>
+    <ng-template #loading
+      ><p-progressBar
+        mode="indeterminate"
+        [style]="{ height: '6px' }"
+      ></p-progressBar>
+    </ng-template>
+  </section>
+</div>
+
+<section class="player fixed-bottom">
+  <div class="container">
+    <div class="d-flex flex-row align-items-center">
+      <div class="col">
+        <div class="d-flex music">
+          <img
+            src="assets/img/volume_low.svg"
+            alt=""
+            style="margin-right: 1em"
+          />
+          <!-- <input
+            type="range"
+            min="0"
+            max="100"
+            value="50"
+            name="range"
+            step="1"
+          /> -->
+          <p-slider
+            [(ngModel)]="sliderValue"
+            [min]="0"
+            [max]="100"
+            [style]="{ width: '16em' }"
+            class="mr-2"
+          ></p-slider>
+
+          <img
+            src="assets/img/volume_high.svg"
+            alt=""
+            style="margin-left: 1em"
+          />
+        </div>
+      </div>
+      <div class="col">
+        <div class="controls">
+          <button
+            type="button"
+            class="btn menu"
+            style="background: url('assets/img/menu.svg') no-repeat center"
+          ></button>
+          <div class="play">
+            <button
+              (click)="prev()"
+              type="button"
+              class="btn medium"
+              style="background: url('assets/img/back.svg') no-repeat center"
+            ></button>
+            <button
+              (click)="toggle()"
+              type="button"
+              class="btn big"
+              [ngStyle]="{ background: toggleImageUrl }"
+            ></button>
+            <button
+              (click)="next()"
+              type="button"
+              class="btn medium"
+              style="background: url('assets/img/forward.svg') no-repeat center"
+            ></button>
+          </div>
+          <button
+            type="button"
+            class="btn small"
+            style="background: url('assets/img/begin.svg')"
+          ></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- <button (click)="getDaryoRss()">Get Rss Data</button> -->
+
+<br />
+
+<!-- <h2>
+  {{ daryoRss?.rss.channel[0].title[0] }}
+</h2> -->
+<!-- Total Item: {{ rssItems?.rss.channel[0].item.length }}
+<ul>
+  <li *ngFor="let o of daryoRss?.rss.channel[0].item">
+    <a href="{{ o.link[0] }}">{{ o.title[0] }}</a>
+    <span> {{ o.pubDate | date: "shortTime" }}</span>
+
+    <p>{{ o.description }}</p>
+  </li>
+</ul> -->
+
+<!-- Total Item: {{ rssItems.length }}
+<ul>
+  <li *ngFor="let o of rssItems">
+    <a href="{{ o.link[0] }}">{{ o.title[0] }}</a>
+    <span> {{ o.pubDate | date: "shortTime" }}</span>
+    <span> {{ o.source }}</span>
+
+    <p>{{ o.description }}</p>
+  </li>
+</ul> -->
+
+<!-- <button (click)="prev()">Prev</button>
+<button (click)="toggle()">{{ isPlaying }}</button>
+<button (click)="next()">Next</button> -->
+
+<app-player (notifyFeed)="nextArticle($event)"></app-player>

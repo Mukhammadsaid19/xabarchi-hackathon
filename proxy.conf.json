@@ -1,0 +1,10 @@
+{
+  "/rss": {
+    "target": "https://kun.uz/news",
+    "secure": true,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/rss": ""
+    }
+  }
+}

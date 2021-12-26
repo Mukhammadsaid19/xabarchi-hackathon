@@ -1,0 +1,165 @@
+@media (min-width: 1200px) {
+  .container {
+    max-width: 970px;
+  }
+}
+.navbar {
+  height: 94px;
+
+  .h1 {
+    // font-family: 'SF Pro Display';
+    font-size: 30px;
+  }
+
+  .nav-link {
+    font-size: 22px;
+  }
+
+  img {
+    width: 48px;
+    margin-right: 16px;
+  }
+}
+
+hr {
+  margin-top: 0;
+}
+
+.sources {
+  .source {
+    width: 256px;
+    height: 48px;
+    margin-right: 20px;
+    border-radius: 8px;
+
+    .form-check-input {
+      width: 24px;
+      height: 24px;
+      margin: 3px 12px -10px 0px;
+    }
+
+    .form-check-label {
+      margin: -3px 0 0 34px;
+      font-size: 22px;
+    }
+  }
+}
+
+.news {
+  .card {
+    margin-top: 24px;
+    background: #fafafa;
+    // border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+
+    .card-body {
+      padding: 32px;
+
+      .card-title {
+        font-size: 28px;
+      }
+
+      .card-subtitle {
+        font-size: 16px;
+        margin-bottom: 16px;
+      }
+
+      .card-text {
+        font-size: 22px;
+      }
+    }
+  }
+}
+
+.player {
+  height: 180px;
+  background-color: white;
+  box-shadow: 0px 0px 11px 3px rgba(132, 132, 132, 0.3);
+
+  .music {
+    position: fixed;
+    bottom: 60px;
+    margin-left: 50px;
+
+    // height: 210px;
+    input[type="range"] {
+      width: 300px;
+      margin-left: 18px;
+      margin-right: 18px;
+      background: #6571dd;
+    }
+
+    img {
+      position: relative;
+      bottom: 5px;
+    }
+  }
+
+  .controls {
+    position: fixed;
+    bottom: 40px;
+    width: 480px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    .play {
+      .medium {
+        width: 30px;
+        height: 32px;
+      }
+      .big {
+        width: 75px;
+        height: 75px;
+        margin-left: 32px;
+        margin-right: 32px;
+      }
+    }
+    .menu {
+      width: 35px;
+      height: 25px;
+    }
+    .small {
+      width: 40px;
+      height: 40px;
+    }
+  }
+  // border: 3px solid #8AC007;
+}
+
+:host ::ng-deep .p-multiselect {
+  min-width: 15rem;
+  width: 100%;
+  padding-left: 8px;
+  border-radius: 8px;
+}
+
+:host ::ng-deep .multiselect-custom {
+  .p-multiselect-label {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+  }
+
+  .country-item-value {
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    display: inline-flex;
+    margin-right: 0.5rem;
+    background-color: var(--primary-color);
+    color: var(--primary-color-text);
+
+    img.flag {
+      width: 17px;
+    }
+  }
+
+  .country-placeholder {
+    padding: 0.25rem;
+  }
+}
+:host ::ng-deep {
+  @media screen and (max-width: 640px) {
+    .p-multiselect {
+      width: 100%;
+    }
+  }
+}
